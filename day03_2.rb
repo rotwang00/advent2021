@@ -1,46 +1,62 @@
 file = File.open("day03_data.txt")
 file_data = file.readlines.map(&:chomp)
+ 
+index = 0
 
-data_points = file_data.size
-
-number_of_ones = {
-  0 => 0,
-  1 => 0,
-  2 => 0,
-  3 => 0,
-  4 => 0,
-  5 => 0,
-  6 => 0,
-  7 => 0,
-  8 => 0,
-  9 => 0,
-  10 => 0,
-  11 => 0
-}
-
-file_data.each do |str|
-  str.chars.each_with_index do |char, index|
-    if char == "1"
-      number_of_ones[index] += 1
-    end
+while file_data.size > 1
+  
+  zeroes = 0
+  ones = 0
+  
+  file_data.each do |str|
+    str[index] == "0" ? zeroes += 1 : ones += 1
   end
-end
 
-p number_of_ones
-
-gamma = ""
-epsilon = ""
-
-number_of_ones.map do |_, v|
-  if v > data_points / 2
-    gamma += "1"
-    epsilon += "0"
+  if ones >= zeroes
+    removed_char = "0"
   else
-    gamma += "0"
-    epsilon += "1"
+    removed_char = "1"
   end
+
+  file_data = file_data.select do |str|
+    str[index] == removed_char
+  end
+
+  index += 1
 end
 
-answer = gamma.to_i(2) * epsilon.to_i(2)
+oxygen = file_data[0].to_i(2)
+p oxygen
 
-p answer
+
+file = File.open("day03_data.txt")
+file_data = file.readlines.map(&:chomp)
+ 
+index = 0
+
+while file_data.size > 1
+  
+  zeroes = 0
+  ones = 0
+  
+  file_data.each do |str|
+    str[index] == "0" ? zeroes += 1 : ones += 1
+  end
+
+  if ones < zeroes
+    removed_char = "0"
+  else
+    removed_char = "1"
+  end
+
+  file_data = file_data.select do |str|
+    str[index] == removed_char
+  end
+
+  index += 1
+end
+
+co2 = file_data[0].to_i(2)
+p co2
+
+print oxygen * co2
